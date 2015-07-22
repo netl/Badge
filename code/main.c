@@ -64,11 +64,12 @@ void flipBuffer(uint8_t *buffer)
 
 void loop()
 {
-  uint8_t buffer[17]="  netl  ";
-  uint8_t bannertext[] = "l.fi    Juuso Metsavuori    turku.hacklab.fi    netl.fi    ";
+  static uint8_t buffer[17]="  netl  ";
+  static uint8_t bannertext[] = "l.fi    Juuso   Metsavuori      turku.hacklab.fi      netl.fi    ";
+  static uint8_t pauselist[] = {9,17,18,19,33,39,47,55}; //tells where to stop scrolling the 
+  static uint8_t  offset=0,pausecounter=0;
   uint8_t i;
-  bannertext[18]=0xe1; //add ä to the scrolling text
-  static uint8_t  offset=0;
+  bannertext[20]=0xe1; //add ä to the scrolling text
   for(i=0;i<=7;i++)  //render the text on the lower half of the screen
   {
     buffer[8+i]=bannertext[i+offset];
@@ -79,12 +80,20 @@ void loop()
     offset=0;
   
   flipBuffer(&buffer[0]);  //draw on lcd
-    _delay_ms(500);
+	if(offset!=pauselist[pausecounter])
+		_delay_ms(50);
+	else
+	{
+		_delay_ms(700);
+		pausecounter++;
+		if(pausecounter == sizeof(pauselist))
+			pausecounter=0;
+	}
 }
 
 int main(void)
 {
-	DDRC=0b1110; //RS,R/W,E as output PD7 needs to be input and hi-z
+	DDRC=0b1110; //RS,R/W,E as output
 	DDRD=0b1111; //data as out, PD7 needs to be input and hi-z (shorted to reset)
 
    //initialize three times
