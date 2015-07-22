@@ -65,8 +65,8 @@ void flipBuffer(uint8_t *buffer)
 void loop()
 {
   static uint8_t buffer[17]="  netl  ";
-  static uint8_t bannertext[] = "l.fi    Juuso   Metsavuori      turku.hacklab.fi      netl.fi    ";
-  static uint8_t pauselist[] = {9,17,18,19,33,39,47,55}; //tells where to stop scrolling the 
+  static uint8_t bannertext[] = "        Juuso   Metsavuori      turku.hacklab.fi        netl.fi        ";
+  static uint8_t pauselist[] = {8,17,19,31,39,42,56}; //tells where to stop scrolling the 
   static uint8_t  offset=0,pausecounter=0;
   uint8_t i;
   bannertext[20]=0xe1; //add ä to the scrolling text
@@ -84,7 +84,7 @@ void loop()
 		_delay_ms(50);
 	else
 	{
-		_delay_ms(700);
+		_delay_ms(1500);
 		pausecounter++;
 		if(pausecounter == sizeof(pauselist))
 			pausecounter=0;
